@@ -12,7 +12,9 @@ Costs at the time of writing:
 4 x t2.medium @ $0.015 per Hour = $0.06
 1 x NLB @ $0.0252 per hour = $0.0252
 
-Total = $0.11 / hour (rounded up) + plus any transfer costs etc (expect to be close to $0.00 for experimenting)
+Total = $0.11 / hour (rounded up) + plus any transfer costs etc (expect to be close to $0.00 for experimenting).
+
+It is linked in from the follwoing blogpost https://devopsgoat.home.blog/2019/12/16/building-an-ha-kubernetes-cluster-in-aws-using-spot-instances/
 
 ## Variables
 
