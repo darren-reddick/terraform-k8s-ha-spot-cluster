@@ -44,17 +44,17 @@ resource "aws_alb_target_group" "apiserver" {
 }
 
 resource "aws_lb_target_group_attachment" "kubemaster" {
-  count = "3"
+  count = length(aws_spot_instance_request.kubemaster)
   target_group_arn = aws_alb_target_group.apiserver.arn
   target_id        = "${data.aws_instance.kubemaster.*.private_ip[count.index]}"
 }
 
 data "aws_instance" "kubemaster" {
-  count = 3
+  count = length(aws_spot_instance_request.kubemaster)
   instance_id = aws_spot_instance_request.kubemaster.*.spot_instance_id[count.index]
 }
 
 data "aws_instance" "kubeworker" {
-  count = 1
+  count = length(aws_spot_instance_request.kubeworker)
   instance_id = aws_spot_instance_request.kubeworker.*.spot_instance_id[count.index]
-}
+} 
