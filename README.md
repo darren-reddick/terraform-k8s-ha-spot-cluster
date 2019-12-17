@@ -1,6 +1,8 @@
 # terraform-k8s-backup
 
-This repository contains the Terraform code used to create a budget K8S Highly Available environment in AWS for experimenting
+This repository contains the Terraform code used to create a budget K8S Highly Available environment in AWS for experimenting.
+
+Please note that eu-west-1 region is only supported but I will be looking to update this soon. The region can easily be changed in the code if necesssary.
 
 The following resources are created:
 * VPC with associated subnets etc
@@ -14,7 +16,7 @@ Costs at the time of writing:
 
 Total = $0.11 / hour (rounded up) + plus any transfer costs etc (expect to be close to $0.00 for experimenting).
 
-It is linked in from the follwoing blogpost https://devopsgoat.home.blog/2019/12/16/building-an-ha-kubernetes-cluster-in-aws-using-spot-instances/
+It is linked in from the following blogpost https://devopsgoat.home.blog/2019/12/16/building-an-ha-kubernetes-cluster-in-aws-using-spot-instances/
 
 ## Variables
 
