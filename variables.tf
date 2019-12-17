@@ -7,5 +7,13 @@ variable "stackname" {
 }
 
 variable "k8s_version" {
-    default = "1.14.8"
+    default = "1.15.7"
+}
+
+variable "key_name" {
+    default = "devops-key"
+}
+
+variable "my_public_ip" {
+    default = "151.231.159.184/32"
 }
