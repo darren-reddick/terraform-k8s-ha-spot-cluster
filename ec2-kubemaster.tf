@@ -4,7 +4,7 @@ resource "aws_spot_instance_request" "kubemaster" {
   iam_instance_profile = "${aws_iam_instance_profile.kubemaster-instance-profile.id}"
   wait_for_fulfillment = true
   instance_type = "t2.medium"
-  key_name = "devops-key"
+  key_name = "${var.key_name}"
   subnet_id = module.vpc.private_subnets[count.index]
   source_dest_check = false
   vpc_security_group_ids = [aws_security_group.kubemaster.id]
@@ -24,7 +24,7 @@ EOF
   }
   provisioner "local-exec" {
     command =<<EOF
-aws ec2 create-tags --resources ${self.spot_instance_id} --tags Key=Name,Value=Kubemaster${count.index}
+aws ec2 create-tags --resources ${self.spot_instance_id} --tags Key=Name,Value=${var.stackname}-Kubemaster${count.index}
 aws ec2 create-tags --resources ${self.spot_instance_id} --tags Key=kubernetes.io/cluster/${var.stackname},Value=owned
 aws ec2 create-tags --resources ${self.spot_instance_id} --tags Key=Kuberole,Value=master
 aws ec2 create-tags --resources ${self.spot_instance_id} --tags Key=Stackname,Value=${var.stackname}
