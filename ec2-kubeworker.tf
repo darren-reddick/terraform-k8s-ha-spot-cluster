@@ -1,6 +1,7 @@
 resource "aws_spot_instance_request" "kubeworker" {
   count = "1"
   ami           = data.aws_ami.centos.id
+  depends_on = [null_resource.delay-after-kubemaster-instance-profile]
   iam_instance_profile = "${aws_iam_instance_profile.kubemaster-instance-profile.id}"
   wait_for_fulfillment = true
   instance_type = "t2.medium"

@@ -102,3 +102,12 @@ resource "aws_iam_role_policy_attachment" "kubemaster-instance-role-attachment1"
     policy_arn = "${aws_iam_policy.kubemaster.arn}"
 }
 
+resource "null_resource" "delay-after-kubemaster-instance-profile" {
+  provisioner "local-exec" {
+    command = "sleep 20"
+  }
+  triggers = {
+    instance_profile = aws_iam_instance_profile.kubemaster-instance-profile.id
+  }
+}
+
