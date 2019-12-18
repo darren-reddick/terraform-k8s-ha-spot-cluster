@@ -1,5 +1,5 @@
 resource "aws_instance" "nat" {
-  ami           = var.ami_nat
+  ami           = data.aws_ami.nat.id
   instance_type = "t2.micro"
   subnet_id = module.vpc.public_subnets.0
   source_dest_check = false

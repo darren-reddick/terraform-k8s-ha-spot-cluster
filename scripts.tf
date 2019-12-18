@@ -56,7 +56,7 @@ MASTERINIHA
 certificatekey=$(kubeadm init phase upload-certs --experimental-upload-certs | tail -1)
 
 # Get a list of control plane members that are not me!
-masters=$(aws ec2 describe-instances --region eu-west-1 --filters "Name=tag:Kuberole,Values=master" "Name=instance-state-name,Values=running" "Name=tag:Stackname,Values=${var.stackname}" \
+masters=$(aws ec2 describe-instances --region ${data.aws_region.current.name} --filters "Name=tag:Kuberole,Values=master" "Name=instance-state-name,Values=running" "Name=tag:Stackname,Values=${var.stackname}" \
 --query 'Reservations[].Instances[?PrivateDnsName!=`'$(hostname -f)'`].[PrivateDnsName]' \
 --output text)
 
@@ -75,7 +75,7 @@ JOINCONTROLPLANE
 #!/bin/bash
 
 # get a list of workers with taint to apply from Taint tag
-workers=$(aws ec2 describe-instances --region eu-west-1 --filters "Name=tag:Kuberole,Values=worker" "Name=instance-state-name,Values=running" "Name=tag:Stackname,Values=${var.stackname}" \
+workers=$(aws ec2 describe-instances --region ${data.aws_region.current.name} --filters "Name=tag:Kuberole,Values=worker" "Name=instance-state-name,Values=running" "Name=tag:Stackname,Values=${var.stackname}" \
 --query 'Reservations[].Instances[].[PrivateDnsName]' \
 --output text)
 

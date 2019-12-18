@@ -1,6 +1,6 @@
 resource "aws_spot_instance_request" "kubemaster" {
   count = "3"
-  ami           = "ami-0ff760d16d9497662"
+  ami           = data.aws_ami.centos.id
   iam_instance_profile = "${aws_iam_instance_profile.kubemaster-instance-profile.id}"
   wait_for_fulfillment = true
   instance_type = "t2.medium"
@@ -24,10 +24,12 @@ EOF
   }
   provisioner "local-exec" {
     command =<<EOF
-aws ec2 create-tags --resources ${self.spot_instance_id} --tags Key=Name,Value=${var.stackname}-Kubemaster${count.index}
-aws ec2 create-tags --resources ${self.spot_instance_id} --tags Key=kubernetes.io/cluster/${var.stackname},Value=owned
-aws ec2 create-tags --resources ${self.spot_instance_id} --tags Key=Kuberole,Value=master
-aws ec2 create-tags --resources ${self.spot_instance_id} --tags Key=Stackname,Value=${var.stackname}
+# Sleeping to ensure that instance ids are available for the cli
+sleep 10
+aws ec2 create-tags --resources ${self.spot_instance_id} --tags Key=Name,Value=${var.stackname}-Kubemaster${count.index} --region ${data.aws_region.current.name}
+aws ec2 create-tags --resources ${self.spot_instance_id} --tags Key=kubernetes.io/cluster/${var.stackname},Value=owned --region ${data.aws_region.current.name}
+aws ec2 create-tags --resources ${self.spot_instance_id} --tags Key=Kuberole,Value=master --region ${data.aws_region.current.name}
+aws ec2 create-tags --resources ${self.spot_instance_id} --tags Key=Stackname,Value=${var.stackname} --region ${data.aws_region.current.name}
 EOF
   }
 }
