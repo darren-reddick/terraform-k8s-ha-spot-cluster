@@ -2,7 +2,7 @@
 
 This repository contains the Terraform code used to create a budget K8S Highly Available environment in AWS for experimentation.
 
-Please note that eu-west-1 region is only supported but I will be looking to update this soon. The region can easily be changed in the code if necesssary.
+All regions should be supported (tested on eu-west1 and eu-west-2)
 
 The following resources are created:
 * VPC with associated subnets etc
