@@ -47,13 +47,13 @@ resource "aws_security_group" "nat" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks     = [var.my_public_ip]
+    cidr_blocks     = [join("/",[data.external.myipaddr.result.ip,"32"])]
   }
   ingress {
     from_port   = 2220
     to_port     = 2225
     protocol    = "tcp"
-    cidr_blocks     = [var.my_public_ip]
+    cidr_blocks     = [join("/",[data.external.myipaddr.result.ip,"32"])]
   }
   egress {
     from_port       = 0
