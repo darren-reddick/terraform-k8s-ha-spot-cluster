@@ -22,7 +22,7 @@ It is linked in from the following blogpost https://devopsgoat.home.blog/2019/12
 
 | Name | Description |
 |------|-------------|
-| k8s_version | The version string for the K8S version<br>This has only been tested with versions 1.14.X and 1.15.X so far |
+| k8s_version | The version string for the K8S version<br>This has only been tested with versions 1.14.X / 1.15.X / 1.16.X so far |
 | stackname | The unique name used to identify the stack<br>Instances etc. will be tagged appropriately |
 | key_name | The name of the shh key to associate with the instances.<br>This key should pre-exist in the account |
 | my_public_ip | The public IP address of the machine that connections to the cluster will be made from<br>This is for security group ingress | 

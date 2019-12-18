@@ -3,7 +3,7 @@ locals {
 #!/bin/bash
 
 # create master node locally including aws provider
-kubeadm init --experimental-upload-certs --config <(cat << EOF
+kubeadm init ${local.kubeadm_flags[split(".",var.k8s_version)[1]][0]} --config <(cat << EOF
 ---
 apiVersion: kubeadm.k8s.io/v1beta1
 kind: ClusterConfiguration
@@ -53,7 +53,7 @@ MASTERINIHA
   k8s-join-controlplane-sh =<<JOINCONTROLPLANE
 #!/bin/bash
 
-certificatekey=$(kubeadm init phase upload-certs --experimental-upload-certs | tail -1)
+certificatekey=$(kubeadm init phase upload-certs ${local.kubeadm_flags[split(".",var.k8s_version)[1]][0]} | tail -1)
 
 # Get a list of control plane members that are not me!
 masters=$(aws ec2 describe-instances --region ${data.aws_region.current.name} --filters "Name=tag:Kuberole,Values=master" "Name=instance-state-name,Values=running" "Name=tag:Stackname,Values=${var.stackname}" \
@@ -63,7 +63,7 @@ masters=$(aws ec2 describe-instances --region ${data.aws_region.current.name} --
 for master in $masters
 do
   ssh centos@$master << SCRIPT
-sudo [ -f /etc/kubernetes/kubelet.conf ] && { echo "This worker looks to be a member of a cluster already"; exit; } || sudo $(kubeadm token create --print-join-command) --experimental-control-plane --certificate-key $certificatekey
+sudo [ -f /etc/kubernetes/kubelet.conf ] && { echo "This worker looks to be a member of a cluster already"; exit; } || sudo $(kubeadm token create --print-join-command) ${local.kubeadm_flags[split(".",var.k8s_version)[1]][1]} --certificate-key $certificatekey
 sudo mkdir -p ~/.kube
 sudo cp -p /etc/kubernetes/admin.conf ~/.kube/config
 SCRIPT

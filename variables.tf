@@ -7,7 +7,7 @@ variable "stackname" {
 }
 
 variable "k8s_version" {
-    default = "1.15.7"
+    default = "1.16.4"
 }
 
 variable "key_name" {
@@ -16,6 +16,14 @@ variable "key_name" {
 
 variable "my_public_ip" {
     default = "212.139.189.130/32"
+}
+
+locals {
+    kubeadm_flags = {
+        "14" = ["--experimental-upload-certs","--experimental-control-plane"]
+        "15" = ["--upload-certs","--control-plane"]
+        "16" = ["--upload-certs","--control-plane"]
+    }
 }
 
 data "aws_ami" "nat" {
