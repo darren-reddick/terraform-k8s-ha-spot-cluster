@@ -7,7 +7,7 @@ variable "stackname" {
 }
 
 variable "k8s_version" {
-    default = "1.16.4"
+    default = "1.15.7"
 }
 
 variable "key_name" {
@@ -25,6 +25,13 @@ locals {
         "16" = ["--upload-certs","--control-plane"]
     }
 }
+
+data "external" "myipaddr" {
+  program = ["bash", "-c", "curl -s 'https://api.ipify.org?format=json'"]
+}
+
+
+
 
 data "aws_ami" "nat" {
   most_recent      = true
